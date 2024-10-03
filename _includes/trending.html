@@ -1,4 +1,4 @@
-<!-- The trending list -->
+<!-- The trending tags list -->
 
 {% assign MAX = 10 %}
 
@@ -17,7 +17,7 @@
 
 {% assign tag_list = tag_list | sort_natural %}
 
-{% assign trending = '' | split: '' %}
+{% assign trending_tags = '' | split: '' %}
 
 {% for size in size_list limit: MAX %}
   {% for tag_str in tag_list %}
@@ -25,20 +25,20 @@
     {% assign tag_name = tag | first %}
     {% assign tag_size = tag | last | plus: 0 %}
     {% if tag_size == size %}
-      {% unless trending contains tag_name %}
-        {% assign trending = trending | push: tag_name %}
+      {% unless trending_tags contains tag_name %}
+        {% assign trending_tags = trending_tags | push: tag_name %}
         {% break %}
       {% endunless %}
     {% endif %}
   {% endfor %}
 {% endfor %}
 
-{% if trending.size > 0 %}
+{% if trending_tags.size > 0 %}
   <section>
     <h2 class="panel-heading">Trending</h2>
     <div class="d-flex flex-wrap mt-3 mb-1 me-3">
-      {% for tag_name in trending %}
-        {% assign url = tag_name | slugify | url_encode | prepend: '/categories/' | append: '/' %}
+      {% for tag_name in trending_tags %}
+        {% assign url = tag_name | slugify | url_encode | prepend: '/lectures/' | append: '/' %}
         <a class="post-tag btn btn-outline-primary" href="{{ url | relative_url }}">{{ tag_name }}</a>
       {% endfor %}
     </div>
